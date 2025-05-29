@@ -1,25 +1,45 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Register from "../../views/Register.vue";
-import Login from "../../views/Login.vue";
-import Dashboard from "../../views/Dashboard.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import axios from "axios";
+import { useAuthStore } from "../stores/auth";
 
-const routes = [
+import Register from "../../components/Register.vue";
+import Login from "../../components/Login.vue";
+import Home from "../../components/Home.vue";
+import Dashboard from "../../components/Dashboard.vue";
+import Tasks from "../../components/tasks/Tasks.vue";
+
+const routes: RouteRecordRaw[] = [
     {
         path: "/login",
         name: "login",
         component: Login,
+        meta: { guestOnly: true },
     },
     {
         path: "/register",
         name: "register",
         component: Register,
+        meta: { guestOnly: true },
     },
     {
         path: "/",
-        name: "dashboard",
-        component: Dashboard,
+        name: "home",
+        component: Home,
         meta: { requiresAuth: true },
+        children: [
+            {
+                path: "/dashboard",
+                name: "dashboard",
+                component: Dashboard,
+                meta: { requiresAuth: true },
+            },
+            {
+                path: "/tasks",
+                name: "tasks",
+                component: Tasks,
+                meta: { requiresAuth: true },
+            },
+        ],
     },
 ];
 
@@ -29,21 +49,34 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    const publicPages = ["/login", "/register"];
-    const authRequired = !publicPages.includes(to.path);
+    const auth = useAuthStore();
+    const baseUrl = import.meta.env.VITE_API_URL;
 
-    try {
-        const { data } = await axios.get("/api/user");
-
-        if (!authRequired && data) {
-            return next("/");
+    if (!auth.user) {
+        try {
+            const response = await axios.get(`${baseUrl}/api/user`);
+            auth.setUser(response.data.data.user);
+        } catch (err) {
+            auth.clearUser();
         }
-
-        next();
-    } catch (e) {
-        if (authRequired) return next("/login");
-        next();
     }
+
+    const isLoggedIn = !!auth.user;
+
+    if (to.meta.requiresAuth && !isLoggedIn) {
+        return next("/login");
+    }
+
+    if (isLoggedIn && auth.user.role === "admin" && to.path !== "/dashboard") {
+        console.log("here");
+        return next("/dashboard");
+    }
+
+    if (isLoggedIn && auth.user.role === "user" && to.path !== "/tasks") {
+        return next("/tasks");
+    }
+
+    next();
 });
 
 export default router;

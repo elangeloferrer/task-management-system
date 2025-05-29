@@ -12,6 +12,8 @@ use App\Helpers\ApiResponse;
 
 use App\Http\Resources\UserResource;
 
+use App\Models\Role;
+
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -24,6 +26,7 @@ class AuthController extends Controller
 
         try {
             $user = User::create([
+                'role_id' => Role::where('code', 'user')->first()->id,
                 'first_name' => $request->first_name,
                 'middle_name' => $request->middle_name,
                 'last_name' => $request->last_name,
@@ -35,7 +38,7 @@ class AuthController extends Controller
 
             return ApiResponse::success([
                 'user' => new UserResource($user)
-            ], 'Successfully registered!', 200);
+            ], 'Successfully registered!', 201);
         } catch (\Throwable $th) {
             return ApiResponse::error($th->getMessage(), 500);
         }
@@ -60,6 +63,13 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return response()->json(['message' => 'Logged out']);
+        return ApiResponse::success([], 'Logged out!!!', 200);
+    }
+
+    public function getAuthenticatedUser()
+    {
+        return ApiResponse::success([
+            'user' => new UserResource(Auth::user())
+        ], 'Fetched authenticated user.', 200);
     }
 }

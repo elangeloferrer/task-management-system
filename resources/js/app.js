@@ -1,7 +1,13 @@
 import "./bootstrap";
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 
-import App from "../components/App.vue";
+import App from "../App.vue";
 import router from "../types/router";
+import { Icon } from "@iconify/vue";
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App).component("Icon", Icon);
+
+app.use(router);
+app.use(createPinia());
+app.mount("#app");

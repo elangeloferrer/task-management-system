@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'frontend' => EnsureFrontendRequestsAreStateful::class,
+            'checkAdmin' => \App\Http\Middleware\CheckAdminMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

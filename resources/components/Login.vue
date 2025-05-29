@@ -50,30 +50,39 @@
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 
-import axios from "axios";
+import { useAuthStore } from "../types/stores/auth";
 
-import { showSuccessToast, showErrorToast } from "../utils/toast";
+import { showSuccessToast, showErrorToast } from "../types/utils/toast";
 
 export default defineComponent({
     setup() {
+        const router = useRouter();
+        const auth = useAuthStore();
+
         const username = ref("");
         const password = ref("");
-        const router = useRouter();
 
         const login = async () => {
-            try {
-                const baseUrl = import.meta.env.VITE_API_URL;
-                await axios.get(`${baseUrl}/sanctum/csrf-cookie`);
-                const response = await axios.post(`${baseUrl}/api/login`, {
-                    username: username.value,
-                    password: password.value,
-                });
-                router.push("/");
-                showSuccessToast(response.data.message); // to be fix
-            } catch (e) {
-                console.log("e", e);
-                if (e.status === 401 && e.response?.data?.message)
-                    showErrorToast(e.response?.data?.message);
+            const res = await auth.login({
+                username: username.value,
+                password: password.value,
+            });
+
+            if (res.status === 200) {
+                showSuccessToast(res.data.message); // to be fix
+
+                console.log("auth.user login", auth.user);
+                if (auth.user.role === "admin") {
+                    router.push({ name: "home" });
+                }
+
+                if (auth.user.role === "user") {
+                    router.push({ name: "tasks" });
+                }
+            }
+
+            if (res.status === 401 && res.response?.data?.message) {
+                showErrorToast(res.response?.data?.message);
             }
         };
 

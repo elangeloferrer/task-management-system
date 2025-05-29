@@ -144,11 +144,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../types/stores/auth";
+import { showSuccessToast } from "../types/utils/toast";
 
 export default defineComponent({
     setup() {
+        const router = useRouter();
+        const auth = useAuthStore();
+
         const firstName = ref("");
         const middleName = ref("");
         const lastName = ref("");
@@ -162,25 +166,28 @@ export default defineComponent({
             username: "",
             password: "",
         });
-        const router = useRouter();
 
         const register = async () => {
-            try {
-                await axios.get("/sanctum/csrf-cookie");
-                await axios.post("/api/register", {
-                    first_name: firstName.value,
-                    middle_name: middleName.value,
-                    last_name: lastName.value,
-                    username: username.value,
-                    password: password.value,
-                    password_confirmation: passwordConfirmation.value,
-                });
-                router.push("/");
-            } catch (e) {
-                console.log("e", e);
-                if (e.status === 422 && e.response?.data?.errors) {
-                    errors.value = e.response?.data?.errors;
+            const res = await auth.register({
+                first_name: firstName.value,
+                middle_name: middleName.value,
+                last_name: lastName.value,
+                username: username.value,
+                password: password.value,
+                password_confirmation: passwordConfirmation.value,
+            });
+
+            if (res.status === 201) {
+                showSuccessToast(res.data.message);
+                console.log("auth.user register", auth.user);
+                if (auth.user.role === "user") {
+                    console.log("push to tasks");
+                    router.push({ name: "tasks" });
                 }
+            }
+
+            if (res.status === 422 && res.response?.data?.errors) {
+                errors.value = res.response?.data?.errors;
             }
         };
 

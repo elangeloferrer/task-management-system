@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'role_id' => Role::where('code', 'normal-user')->first()->id,
+            'role_id' => Role::where('code', 'user')->first()->id,
             'first_name' => 'Pedro',
             'middle_name' => 'P',
             'last_name' => 'Penduco',

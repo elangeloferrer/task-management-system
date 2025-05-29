@@ -21,9 +21,9 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => "Normal User",
-            'code' => "normal-user",
-            'description' => "Normal User",
+            'name' => "User",
+            'code' => "user",
+            'description' => "Regular User",
         ]);
     }
 }

@@ -19,17 +19,17 @@ class RegisterUserValidator
             'first_name' => [
                 'required',
                 'string',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z]).+$/'
+                'regex:/^[a-zA-Z]+$/'
             ],
             'middle_name' => [
                 'required',
                 'string',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z]).+$/'
+                'regex:/^[a-zA-Z]+$/'
             ],
             'last_name' => [
                 'required',
                 'string',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z]).+$/'
+                'regex:/^[a-zA-Z]+$/'
             ],
             'username' => [
                 'required',
