@@ -145,7 +145,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "../types/stores/auth";
+import { useAuthStore } from "../types/stores/authManagement";
 import { showSuccessToast } from "../types/utils/toast";
 
 export default defineComponent({

@@ -20,7 +20,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word(),
+            'title' => $this->faker->bothify('??? - task ##'),
             'description' => $this->faker->sentence(),
             'status' => $this->faker->randomElement(['pending', 'in-progress', 'completed']),
             'priority' => $this->faker->randomElement(['low', 'medium', 'high']),

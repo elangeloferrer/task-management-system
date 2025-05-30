@@ -50,14 +50,14 @@
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 
-import { useAuthStore } from "../types/stores/auth";
+import { useAuthStore } from "../types/stores/authManagement";
 
 import { showSuccessToast, showErrorToast } from "../types/utils/toast";
 
 export default defineComponent({
     setup() {
-        const router = useRouter();
         const auth = useAuthStore();
+        const router = useRouter();
 
         const username = ref("");
         const password = ref("");
@@ -71,7 +71,6 @@ export default defineComponent({
             if (res.status === 200) {
                 showSuccessToast(res.data.message); // to be fix
 
-                console.log("auth.user login", auth.user);
                 if (auth.user.role === "admin") {
                     router.push({ name: "home" });
                 }

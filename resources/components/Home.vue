@@ -96,15 +96,18 @@
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 
-import { useAuthStore } from "../types/stores/auth";
+import { useAuthStore } from "../types/stores/authManagement";
 import { useMoment } from "../types/utils/moment";
 
 export default defineComponent({
     setup() {
-        const router = useRouter();
         const auth = useAuthStore();
         const moment = useMoment();
+        const router = useRouter();
+
+        const isSidebarOpen = ref(false);
         const userRole = auth.user.role;
+        const yearNow = moment().format("YYYY");
 
         const logout = async () => {
             const res = await auth.logout();
@@ -113,10 +116,6 @@ export default defineComponent({
                 window.location.href = "/login";
             }
         };
-
-        const yearNow = moment().format("YYYY");
-
-        const isSidebarOpen = ref(false);
 
         const menuItems = ref([
             {

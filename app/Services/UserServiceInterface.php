@@ -4,5 +4,5 @@ namespace App\Services;
 
 interface UserServiceInterface
 {
-    public function getAllUsers($data);
+    public function getAllUsersWithTasks($data);
 }

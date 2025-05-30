@@ -3,7 +3,13 @@
         "module": "esnext",
         "target": "esnext",
         "moduleResolution": "node",
-        "types": ["vue-router", "node", "vite/client"],
+        "types": [
+            "vue-router",
+            "node",
+            "vite/client",
+            "pinia",
+            "./types/pinia.d.ts"
+        ],
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true
     }

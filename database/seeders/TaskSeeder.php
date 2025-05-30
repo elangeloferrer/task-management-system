@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use App\Models\Task;
+use App\Models\User;
 
 class TaskSeeder extends Seeder
 {
@@ -14,10 +15,21 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        $users = User::where('role_id', 2)->get();
+        $user = User::where('id', 2)->first();
+
+
+        for ($i = 1; $i <= 7; $i++) {
             Task::factory()->create([
                 'order' => $i,
-                'description' => 'Custom description for task ' . $i,
+                'user_id' => $user->id
+            ]);
+        }
+
+        for ($i = 1; $i <= 25; $i++) {
+            Task::factory()->create([
+                'order' => $i,
+                'user_id' => $users->random()->id
             ]);
         }
     }

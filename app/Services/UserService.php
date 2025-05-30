@@ -20,11 +20,11 @@ class UserService implements UserServiceInterface
         $this->userRepository = $userRepository;
     }
 
-    public function getAllUsers($data)
+    public function getAllUsersWithTasks($payload)
     {
-        $items = $this->userRepository->getAllUsers($data['page'], $data['per_page'], $data['keywords']);
+        $items = $this->userRepository->getAllUsersWithTasks($payload['per_page']);
         $data = [
-            'data' => $items,
+            'users' => $items,
             'pagination' => [
                 'current_page' => $items->currentPage(),
                 'next_page_url' => $items->nextPageUrl(),

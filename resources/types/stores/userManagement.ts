@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-const baseUrl = import.meta.env.VITE_API_URL;
+import { loadUsers } from "../api/users";
 
 export const useUsersStore = defineStore("usersStore", {
     state: () => ({
@@ -22,24 +22,41 @@ export const useUsersStore = defineStore("usersStore", {
             await axios.get("/sanctum/csrf-cookie");
         },
 
-        async getUsers() {
-            this.getCsrf();
-            const response = await axios.get(`${baseUrl}/api/users`);
-            this.users = response.data.data.user;
-
-            return response;
+        getUsers() {
+            return this.users;
         },
 
-        async setPagination(pagination) {
-            this.pagination = pagination;
+        getPagination() {
+            return this.pagination;
+        },
+
+        getCurrentPage() {
+            return this.pagination.current_page;
+        },
+
+        getPerPage() {
+            return this.pagination.per_page;
+        },
+
+        async setUsers() {
+            let payload = {
+                page: this.pagination.current_page,
+                per_page: this.pagination.per_page,
+            };
+            const response: any = await loadUsers(payload);
+            this.users = response.data.data.users;
+            this.pagination = response.data.data.pagination;
         },
 
         async setCurrentPage(current_page) {
             this.pagination.current_page = current_page;
+            this.setUsers();
         },
     },
 
     getters: {
         isAuthenticated: (state): boolean => !!state.users,
     },
+
+    persist: true,
 });

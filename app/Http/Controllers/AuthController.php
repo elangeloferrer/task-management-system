@@ -71,8 +71,10 @@ class AuthController extends Controller
 
     public function getAuthenticatedUser()
     {
+        $token = Auth::user()->createToken('api-token')->plainTextToken;
         return ApiResponse::success([
-            'user' => new AuthResource(Auth::user())
+            'user' => new AuthResource(Auth::user()),
+            'token' => $token,
         ], 'Fetched authenticated user.', 200);
     }
 }

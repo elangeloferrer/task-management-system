@@ -21,6 +21,6 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->userService->getAllUsers($request->toArray());
+        return $this->userService->getAllUsersWithTasks($request->toArray());
     }
 }
