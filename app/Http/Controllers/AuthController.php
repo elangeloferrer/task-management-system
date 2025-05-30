@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Validators\RegisterUserValidator;
 use App\Helpers\ApiResponse;
 
-use App\Http\Resources\UserResource;
+use App\Http\Resources\AuthResource;
 
 use App\Models\Role;
 
@@ -37,7 +37,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             return ApiResponse::success([
-                'user' => new UserResource($user)
+                'user' => new AuthResource($user)
             ], 'Successfully registered!', 201);
         } catch (\Throwable $th) {
             return ApiResponse::error($th->getMessage(), 500);
@@ -55,8 +55,11 @@ class AuthController extends Controller
             return ApiResponse::error('Username or password is incorrect.', 401);
         }
 
+        $token = Auth::user()->createToken('api-token')->plainTextToken;
+
         return ApiResponse::success([
-            'user' => new UserResource(Auth::user())
+            'user' => new AuthResource(Auth::user()),
+            'token' => $token,
         ], 'Successfully login!', 200);
     }
 
@@ -69,7 +72,7 @@ class AuthController extends Controller
     public function getAuthenticatedUser()
     {
         return ApiResponse::success([
-            'user' => new UserResource(Auth::user())
+            'user' => new AuthResource(Auth::user())
         ], 'Fetched authenticated user.', 200);
     }
 }

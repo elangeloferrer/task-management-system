@@ -1,9 +1,9 @@
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+    <div class="flex min-h-screen items-center justify-center bg-gray-100 p-4">
         <div
-            class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 space-y-6"
+            class="w-full max-w-md space-y-6 rounded-2xl bg-white p-8 shadow-xl"
         >
-            <h2 class="text-2xl font-bold text-center text-gray-800">Login</h2>
+            <h2 class="text-center text-2xl font-bold text-gray-800">Login</h2>
             <form @submit.prevent="login" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
@@ -12,7 +12,7 @@
                     <input
                         type="text"
                         v-model="username"
-                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                        class="mt-1 block w-full rounded-xl border border-gray-300 p-2.5 outline-none hover:border-blue-500 focus:border-blue-500"
                         required
                     />
                 </div>
@@ -23,17 +23,17 @@
                     <input
                         type="password"
                         v-model="password"
-                        class="mt-1 block w-full rounded-xl border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                        class="mt-1 block w-full rounded-xl border border-gray-300 p-2.5 outline-none hover:border-blue-500 focus:border-blue-500"
                         required
                     />
                 </div>
                 <button
                     type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition duration-200"
+                    class="w-full rounded-xl bg-blue-600 py-2.5 font-semibold text-white transition duration-200 outline-none hover:bg-blue-700"
                 >
                     Login
                 </button>
-                <p class="text-sm text-center text-gray-500">
+                <p class="text-center text-sm text-gray-500">
                     Don't have an account?
                     <router-link
                         to="/register"

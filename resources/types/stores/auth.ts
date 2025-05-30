@@ -32,7 +32,7 @@ export const useAuthStore = defineStore("auth", {
                 this.getCsrf();
                 const response = await axios.post(
                     `${baseUrl}/api/login`,
-                    credentials
+                    credentials,
                 );
                 this.user = response.data.data.user;
                 return response;
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore("auth", {
                 this.getCsrf();
                 const response = await axios.post(
                     `${baseUrl}/api/register`,
-                    data
+                    data,
                 );
                 this.user = response.data.data.user;
                 return response;

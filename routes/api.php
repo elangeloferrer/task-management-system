@@ -2,10 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 
+
+
+
+
 Route::middleware('frontend')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -13,5 +18,8 @@ Route::middleware('frontend')->group(function () {
         Route::get('/user', [AuthController::class, 'getAuthenticatedUser']);
     });
 
-    Route::middleware(['auth:sanctum', 'checkAdmin:admin'])->group(function () {});
+    Route::middleware(['auth:sanctum', 'checkAdmin:admin'])->group(function () {
+
+        Route::get('/users', [UserController::class, 'index']);
+    });
 });
