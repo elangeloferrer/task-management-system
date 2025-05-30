@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Services\{
     UserService,
     UserServiceInterface,
+    ActivityLogService,
+    ActivityLogServiceInterface,
 };
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(ActivityLogServiceInterface::class, ActivityLogService::class);
     }
 }
