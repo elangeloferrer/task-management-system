@@ -5,6 +5,9 @@
         >
             <h2 class="text-center text-2xl font-bold text-gray-800">Login</h2>
             <form @submit.prevent="login" class="space-y-4">
+                <p class="pt-2 text-red-400">
+                    {{ error }}
+                </p>
                 <div>
                     <label class="block text-sm font-medium text-gray-700"
                         >Username</label
@@ -51,16 +54,17 @@ import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "../types/stores/authManagement";
-
-import { showSuccessToast, showErrorToast } from "../types/utils/toast";
+import { useNotificationStore } from "../types/stores/notificationManagement";
 
 export default defineComponent({
     setup() {
         const auth = useAuthStore();
+        const notif = useNotificationStore();
         const router = useRouter();
 
         const username = ref("");
         const password = ref("");
+        const error = ref("");
 
         const login = async () => {
             const res = await auth.login({
@@ -69,7 +73,11 @@ export default defineComponent({
             });
 
             if (res.status === 200) {
-                showSuccessToast(res.data.message); // to be fix
+                notif.setNotification({
+                    type: "success",
+                    message: "You have logged in!",
+                    is_triggered: true,
+                });
 
                 if (auth.user.role === "admin") {
                     router.push({ name: "home" });
@@ -81,13 +89,14 @@ export default defineComponent({
             }
 
             if (res.status === 401 && res.response?.data?.message) {
-                showErrorToast(res.response?.data?.message);
+                error.value = res.response?.data?.message;
             }
         };
 
         return {
             username,
             password,
+            error,
 
             login,
         };

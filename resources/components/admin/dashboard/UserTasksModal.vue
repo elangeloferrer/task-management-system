@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts">
-import Modal from "../common/Modal.vue";
+import Modal from "../../common/Modal.vue";
 
 import { defineComponent, onMounted, ref } from "vue";
 

@@ -138,10 +138,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from "vue";
-import { useUsersStore } from "../types/stores/userManagement";
+import { useUsersStore } from "../../../types/stores/admin/userManagement";
 
-import UserTasksModal from "./tasks/UserTasksModal.vue";
-import { excludeKeys } from "../types/utils/excludeKeys";
+import UserTasksModal from "./UserTasksModal.vue";
+import { excludeKeys } from "../../../types/utils/excludeKeys";
 
 export default defineComponent({
     components: {

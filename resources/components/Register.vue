@@ -145,12 +145,14 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
+
 import { useAuthStore } from "../types/stores/authManagement";
-import { showSuccessToast } from "../types/utils/toast";
+import { useNotificationStore } from "../types/stores/notificationManagement";
 
 export default defineComponent({
     setup() {
         const router = useRouter();
+        const notif = useNotificationStore();
         const auth = useAuthStore();
 
         const firstName = ref("");
@@ -178,10 +180,13 @@ export default defineComponent({
             });
 
             if (res.status === 201) {
-                showSuccessToast(res.data.message);
-                console.log("auth.user register", auth.user);
+                notif.setNotification({
+                    type: "success",
+                    message: "You have successfully registered!",
+                    is_triggered: true,
+                });
+
                 if (auth.user.role === "user") {
-                    console.log("push to tasks");
                     router.push({ name: "tasks" });
                 }
             }

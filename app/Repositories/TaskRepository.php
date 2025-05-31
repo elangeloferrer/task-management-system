@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\AbstractBases\AbstractBaseRepository;
 
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\ArrayTaskResource;
+use App\Http\Resources\SingleTaskResource;
 
 use App\Models\Task;
 
@@ -24,6 +24,6 @@ class TaskRepository extends AbstractBaseRepository
 
         $collection = $query->paginate($perPage);
 
-        return ArrayTaskResource::collection($collection);
+        return SingleTaskResource::collection($collection);
     }
 }

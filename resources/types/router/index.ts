@@ -4,8 +4,8 @@ import { useAuthStore } from "../stores/authManagement";
 import Register from "../../components/Register.vue";
 import Login from "../../components/Login.vue";
 import Home from "../../components/Home.vue";
-import Dashboard from "../../components/Dashboard.vue";
-import Tasks from "../../components/tasks/Tasks.vue";
+import Dashboard from "../../components/admin/dashboard/Dashboard.vue";
+import Tasks from "../../components/user/tasks/Tasks.vue";
 
 const routes: RouteRecordRaw[] = [
     {

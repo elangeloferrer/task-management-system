@@ -97,11 +97,13 @@ import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "../types/stores/authManagement";
+import { useNotificationStore } from "../types/stores/notificationManagement";
 import { useMoment } from "../types/utils/moment";
 
 export default defineComponent({
     setup() {
         const auth = useAuthStore();
+        const notif = useNotificationStore();
         const moment = useMoment();
         const router = useRouter();
 
@@ -111,9 +113,15 @@ export default defineComponent({
 
         const logout = async () => {
             const res = await auth.logout();
-
             if (res.status === 200) {
-                window.location.href = "/login";
+                localStorage.clear();
+
+                notif.setNotification({
+                    type: "success",
+                    message: "You have logged out!",
+                    is_triggered: true,
+                });
+                router.push({ name: "login" });
             }
         };
 

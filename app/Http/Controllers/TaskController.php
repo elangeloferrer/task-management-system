@@ -25,7 +25,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->taskService->getAllTasks($request->toArray());
+        return $this->taskService->getAllTasksByUser($request->toArray());
     }
 
     /**
