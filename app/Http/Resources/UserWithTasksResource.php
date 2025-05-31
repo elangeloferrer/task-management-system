@@ -24,7 +24,7 @@ class UserWithTasksResource extends JsonResource
             'pending_tasks_count' => $this->pending_tasks_count,
             'in_progress_tasks_count' => $this->in_progress_tasks_count,
             'completed_tasks_count' => $this->completed_tasks_count,
-            'tasks' => new TaskResource($this->tasks)
+            'tasks' => new ArrayTaskResource($this->tasks)
         ];
     }
 }

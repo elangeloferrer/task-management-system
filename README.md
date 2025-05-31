@@ -76,4 +76,34 @@ php artisan serve
 
 You're all set — your **Laravel** + **Vue.js** (Task Management System) project is now fully installed and ready to run! 🚀
 
+## Documentation
+
 [Postman Collection](./TMS.postman_collection.json)
+
+## Run Test Cases
+
+```bash
+php artisan test --env=testing --filter=TaskTest::testCreateTask
+```
+
+```bash
+php artisan test --env=testing --filter=TaskTest::testGetTask
+```
+
+```bash
+php artisan test --env=testing --filter=TaskTest::testUpdateTask
+```
+
+```bash
+php artisan test --env=testing --filter=TaskTest::testDeleteTask
+```
+
+## Run Scheduled Command Manually
+
+```bash
+php artisan queue:work
+```
+
+```bash
+php artisan app:delete-old-tasks-command
+```
