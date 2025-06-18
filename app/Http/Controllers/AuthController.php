@@ -55,11 +55,16 @@ class AuthController extends Controller
             return ApiResponse::error('Username or password is incorrect.', 401);
         }
 
-        $token = Auth::user()->createToken('api-token')->plainTextToken;
+        // $token = Auth::user()->createToken('api-token');
+        // $accessToken = $token->accessToken;
+        // $plainTextToken = $token->plainTextToken;
+
+        // $accessToken->expires_at = now()->addDays(7); // expires in 7 days
+        // $accessToken->save();
 
         return ApiResponse::success([
             'user' => new AuthResource(Auth::user()),
-            'token' => $token,
+            // 'token' => $plainTextToken,
         ], 'Successfully login!', 200);
     }
 
@@ -71,10 +76,10 @@ class AuthController extends Controller
 
     public function getAuthenticatedUser()
     {
-        $token = Auth::user()->createToken('api-token')->plainTextToken;
+        // $token = Auth::user()->createToken('api-token')->plainTextToken;
         return ApiResponse::success([
             'user' => new AuthResource(Auth::user()),
-            'token' => $token,
+            // 'token' => $token,
         ], 'Fetched authenticated user.', 200);
     }
 }

@@ -46,16 +46,14 @@ export const useUsersStore = defineStore("usersStore", {
             const response: any = await loadUsers(payload);
             this.users = response.data.data.users;
             this.pagination = response.data.data.pagination;
+
+            this.getUsers();
         },
 
         async setCurrentPage(current_page) {
             this.pagination.current_page = current_page;
             this.setUsers();
         },
-    },
-
-    getters: {
-        isAuthenticated: (state): boolean => !!state.users,
     },
 
     persist: true,

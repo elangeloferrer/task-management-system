@@ -165,9 +165,11 @@ export default defineComponent({
 
         const goToPage = async (page) => {
             usersStore.setCurrentPage(page);
+            currentPage.value = usersStore.getCurrentPage();
         };
 
         onMounted(async () => {
+            usersStore.pagination.current_page = 1;
             updateList();
         });
 

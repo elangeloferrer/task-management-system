@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-import { loadUser } from "../api/auth";
+import { register, login, logout, loadUser } from "../api/auth";
 
 interface RegistrationData {
     first_name: string;
@@ -30,8 +30,7 @@ export const useAuthStore = defineStore("auth", {
 
         async login(credentials: Credentials) {
             try {
-                await this.getCsrf();
-                const response = await axios.post(`/api/login`, credentials);
+                const response = await login(credentials);
                 this.setUser(response.data.data.user);
                 this.setToken(response.data.data.token);
                 return response;
@@ -42,8 +41,7 @@ export const useAuthStore = defineStore("auth", {
 
         async register(data: RegistrationData) {
             try {
-                await this.getCsrf();
-                const response = await axios.post(`/api/register`, data);
+                const response = await register(data);
                 this.setUser(response.data.data.user);
                 this.setToken(response.data.data.token);
                 return response;
@@ -53,8 +51,7 @@ export const useAuthStore = defineStore("auth", {
         },
 
         async logout() {
-            await this.getCsrf();
-            const response = await axios.post(`/api/logout`);
+            const response = await logout();
             this.clearUser();
             this.clearToken();
             return response;
@@ -65,13 +62,11 @@ export const useAuthStore = defineStore("auth", {
                 const response: any = await loadUser();
                 this.setUser(response.data.data.user);
                 this.setToken(response.data.data.token);
-                console.log("response getUser", response);
             }
             return this.user;
         },
 
         async getToken() {
-            console.log("getToken", this.token);
             return this.token;
         },
 

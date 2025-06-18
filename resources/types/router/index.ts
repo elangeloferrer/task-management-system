@@ -53,6 +53,8 @@ router.beforeEach(async (to, from, next) => {
     const isLoggedIn = !!auth.isAuthenticated;
 
     if (to.meta.requiresAuth && !isLoggedIn) {
+        auth.clearUser();
+        auth.clearToken();
         return next("/login");
     }
 

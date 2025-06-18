@@ -7,11 +7,14 @@ import App from "../App.vue";
 import router from "../types/router";
 import { Icon } from "@iconify/vue";
 
+import pinia from "../types/stores/pinia";
+
 const app = createApp(App).component("Icon", Icon);
 
-const pinia = createPinia();
 pinia.use(piniaPersistedState);
 
 app.use(router);
 app.use(pinia);
 app.mount("#app");
+
+export { pinia };
